@@ -58,4 +58,36 @@ describe('Film model', () => {
 
     expect(errors.released.message).toEqual('Path `released` is required.');
   });
+
+  it('cannot have been released before 1888', () => {
+    const film = new Film({
+      name: 'The Megaman Story',
+      studio: studio.id,
+      released: 1887,
+      cast: [{
+        role: 'Megaman',
+        actor: actor.id
+      }]
+    });
+
+    const { errors } = film.validateSync();
+
+    expect(errors.released.message).toEqual('Path `released` (1887) is less than minimum allowed value (1888).');
+  });
+
+  it('year cannot be more than 4 digits', () => {
+    const film = new Film({
+      name: 'The Megaman Story',
+      studio: studio.id,
+      released: 10000,
+      cast: [{
+        role: 'Megaman',
+        actor: actor.id
+      }]
+    });
+
+    const { errors } = film.validateSync();
+
+    expect(errors.released.message).toEqual('Path `released` (10000) is more than maximum allowed value (9999).');
+  });
 });
