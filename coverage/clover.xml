@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1578352200978" clover="3.2.0">
-  <project timestamp="1578352200978" name="All files">
+<coverage generated="1578352611075" clover="3.2.0">
+  <project timestamp="1578352611075" name="All files">
     <metrics statements="83" coveredstatements="73" conditionals="7" coveredconditionals="1" methods="24" coveredmethods="21" elements="114" coveredelements="95" complexity="0" loc="83" ncloc="83" packages="5" files="14" classes="14"/>
     <package name="lib">
       <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -58,7 +58,7 @@
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="6" type="stmt"/>
         <line num="3" count="6" type="stmt"/>
-        <line num="25" count="6" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
       </file>
       <file name="Reviewer.js" path="C:\Users\Dan\Documents\alchemy\career-track\labs\lab-16-ripe-banana\lib\models\Reviewer.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -81,9 +81,9 @@
         <line num="2" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
       </file>
       <file name="films.js" path="C:\Users\Dan\Documents\alchemy\career-track\labs\lab-16-ripe-banana\lib\routes\films.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
@@ -91,9 +91,9 @@
         <line num="2" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
       </file>
       <file name="reviewers.js" path="C:\Users\Dan\Documents\alchemy\career-track\labs\lab-16-ripe-banana\lib\routes\reviewers.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
@@ -101,9 +101,9 @@
         <line num="2" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
       </file>
       <file name="reviews.js" path="C:\Users\Dan\Documents\alchemy\career-track\labs\lab-16-ripe-banana\lib\routes\reviews.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -119,9 +119,9 @@
         <line num="2" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
       </file>
     </package>
     <package name="lib.utils">
