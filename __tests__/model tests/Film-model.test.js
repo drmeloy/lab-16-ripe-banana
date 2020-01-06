@@ -90,4 +90,19 @@ describe('Film model', () => {
 
     expect(errors.released.message).toEqual('Path `released` (10000) is more than maximum allowed value (9999).');
   });
+
+  it('requires an actor is a role is listed', () => {
+    const film = new Film({
+      name: 'The Megaman Story',
+      studio: studio.id,
+      released: 2015,
+      cast: [{
+        role: 'Megaman'
+      }]
+    });
+
+    const { errors } = film.validateSync();    
+
+    expect(errors['cast.0.actor'].message).toEqual('Path `actor` is required.');
+  });
 });
