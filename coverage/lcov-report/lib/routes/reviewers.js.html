@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for lib/utils/connect.js</title>
+    <title>Code coverage report for lib/routes/reviewers.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="..\..\prettify.css" />
     <link rel="stylesheet" href="..\..\base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\..\index.html">All files</a> / <a href="index.html">lib/utils</a> connect.js
+      <a href="..\..\index.html">All files</a> / <a href="index.html">lib/routes</a> reviewers.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/12</span>
+        <span class='fraction'>7/7</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/12</span>
+        <span class='fraction'>7/7</span>
       </div>
     </div>
     <p class="quiet">
@@ -66,61 +66,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
-const { parse } = require('url');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Router } = require('express');
+const Reviewer = require('../models/Reviewer');
 &nbsp;
-module.exports = (url = process.env.MONGODB_URI) =&gt; {
-  mongoose.connect(url, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
+module.exports = Router()
+  .get('/', (req, res, next) =&gt; {
+    Reviewer
+      .find()
+      .then(reviewers =&gt; {
+        res.send(reviewers);
+      })
+      .catch(next);
+  })
+  .get('/:id', (req, res, next) =&gt; {
+    Reviewer
+      .findById(req.params.id)
+      .then(reviewer =&gt; {
+        res.send(reviewer);
+      })
+      .catch(next);
   });
-&nbsp;
-  mongoose.connection.on('connected', () =&gt; {
-    const parsedUrl = parse(url);
-    const redactedUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}:${parsedUrl.port}${parsedUrl.pathname}`;
-    console.log(`Connected to MongoDB at ${redactedUrl}`);
-  });
-&nbsp;
-  mongoose.connection.on('disconnected', () =&gt; {
-    console.log('Disconnected from MongoDB');
-  });
-&nbsp;
-  mongoose.connection.on('error', <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log('Error connecting to MongoDB');</span>
-  });
-};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
