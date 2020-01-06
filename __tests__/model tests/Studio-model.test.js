@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const Studio = require('../lib/models/Studio');
+const Studio = require('../../lib/models/Studio');
 
 describe('Studio model', () => {
   it('requires a name', () => {
@@ -15,6 +14,4 @@ describe('Studio model', () => {
 
     expect(errors.name.message).toEqual('Path `name` is required.');
   });
-
-  
 });
