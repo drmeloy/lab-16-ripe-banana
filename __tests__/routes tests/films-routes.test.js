@@ -107,4 +107,32 @@ describe('films routes', () => {
         });
       });
   });
+
+  it('can add a new film', () => {
+    return request(app)
+      .post('/api/v1/films')
+      .send({
+        title: 'Megaman Returns',
+        studio: studio.id,
+        released: 2016,
+        cast: {
+          role: 'Megaman',
+          actor: actor.id
+        }
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          title: 'Megaman Returns',
+          studio: studio.id,
+          released: 2016,
+          cast: [{
+            _id: expect.any(String),
+            role: 'Megaman',
+            actor: actor.id
+          }],
+          __v: 0
+        });
+      });
+  });
 });
