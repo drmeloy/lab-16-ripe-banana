@@ -65,8 +65,7 @@ describe('studios routes', () => {
           films: [{
             _id: film.id,
             title: 'The Megaman Story'
-          }],
-          __v: 0
+          }]
         });
       });
   });

@@ -71,8 +71,7 @@ describe('films routes', () => {
             _id: studio.id,
             name: 'Boise Studios'
           },
-          released: 2015,
-          __v: 0
+          released: 2015
         }]);
       });
   });
@@ -82,7 +81,6 @@ describe('films routes', () => {
       .get(`/api/v1/films/${film.id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: film.id,
           title: 'The Megaman Story',
           studio: {
             _id: studio.id,
@@ -105,8 +103,7 @@ describe('films routes', () => {
               _id: reviewer.id,
               name: 'Megaman'
             }
-          }],
-          __v: 0
+          }]
         });
       });
   });
