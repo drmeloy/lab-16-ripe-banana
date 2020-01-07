@@ -5,6 +5,7 @@ const app = require('../../lib/app');
 const connect = require('../../lib/utils/connect');
 const mongoose = require('mongoose');
 const Studio = require('../../lib/models/Studio');
+const Film = require('../../lib/models/Film');
 
 describe('studios routes', () => {
   beforeAll(() => {
@@ -20,6 +21,7 @@ describe('studios routes', () => {
   });
   
   let studio;
+  let film;
   beforeEach(async() => {
     studio = await Studio.create({
       name: 'Boise Studios',
@@ -29,6 +31,12 @@ describe('studios routes', () => {
         country: 'USA'
       }
     });
+
+    film = await Film.create({
+      title: 'The Megaman Story',
+      studio: studio.id,
+      released: 2015
+    });
   });
 
   it('gets all studios', () => {
@@ -37,13 +45,7 @@ describe('studios routes', () => {
       .then(res => {
         expect(res.body).toEqual([{
           _id: studio.id,
-          name: 'Boise Studios',
-          address: {
-            city: 'Boise',
-            state: 'Idaho',
-            country: 'USA'
-          },
-          __v: 0
+          name: 'Boise Studios'
         }]);
       });
   });
@@ -60,6 +62,10 @@ describe('studios routes', () => {
             state: 'Idaho',
             country: 'USA'
           },
+          films: [{
+            _id: film.id,
+            title: 'The Megaman Story'
+          }],
           __v: 0
         });
       });
