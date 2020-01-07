@@ -5,6 +5,9 @@ const app = require('../../lib/app');
 const connect = require('../../lib/utils/connect');
 const mongoose = require('mongoose');
 const Reviewer = require('../../lib/models/Reviewer');
+const Review = require('../../lib/models/Review');
+const Film = require('../../lib/models/Film');
+const Studio = require('../../lib/models/Studio');
 
 describe('reviewers routes', () => {
   beforeAll(() => {
@@ -20,10 +23,30 @@ describe('reviewers routes', () => {
   });
 
   let reviewer;
+  let review;
+  let studio;
+  let film;
   beforeEach(async() => {
     reviewer = await Reviewer.create({
       name: 'Megaman',
       company: 'Super Reviews'
+    });
+
+    studio = await Studio.create({
+      name: 'Boise Studios'
+    });
+
+    film = await Film.create({
+      title: 'The Megaman Story',
+      studio: studio.id,
+      released: 2015
+    });
+
+    review = await Review.create({
+      rating: 5,
+      reviewer: reviewer.id,
+      review: 'Supah good',
+      film: film.id
     });
   });
 
@@ -34,8 +57,7 @@ describe('reviewers routes', () => {
         expect(reviewers.body).toEqual([{
           _id: reviewer.id,
           name: 'Megaman',
-          company: 'Super Reviews',
-          __v: 0
+          company: 'Super Reviews'
         }]);
       });
   });
@@ -48,7 +70,15 @@ describe('reviewers routes', () => {
           _id: reviewer.id,
           name: 'Megaman',
           company: 'Super Reviews',
-          __v: 0
+          reviews: [{
+            _id: review.id,
+            rating: 5,
+            review: 'Supah good',
+            film: {
+              _id: film.id,
+              title: 'The Megaman Story'
+            }
+          }]
         });
       });
   });
