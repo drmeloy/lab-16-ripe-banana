@@ -69,4 +69,29 @@ describe('studios routes', () => {
         });
       });
   });
+
+  it('can add a new studio', () => {
+    return request(app)
+      .post('/api/v1/studios')
+      .send({
+        name: 'Portland Studios',
+        address: {
+          city: 'Portland',
+          state: 'Idaho',
+          country: 'USA'
+        }
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Portland Studios',
+          address: {
+            city: 'Portland',
+            state: 'Idaho',
+            country: 'USA'
+          },
+          __v: 0
+        });
+      });
+  });
 });
