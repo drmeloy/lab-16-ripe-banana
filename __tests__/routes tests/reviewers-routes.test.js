@@ -82,4 +82,62 @@ describe('reviewers routes', () => {
         });
       });
   });
+
+  it('can create a new reviewer', () => {
+    return request(app)
+      .post('/api/v1/reviewers')
+      .send({
+        name: 'Protoman',
+        company: 'Portland Studios'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Protoman',
+          company: 'Portland Studios',
+          __v: 0
+        });
+      });
+  });
+
+  it('can update a reviewer', () => {
+    return request(app)
+      .patch(`/api/v1/reviewers/${reviewer.id}`)
+      .send({ name: 'Rock' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: reviewer.id,
+          name: 'Rock',
+          company: 'Super Reviews',
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete a reviewer with no reviews', async () => {
+    const emptyReviewer = await Reviewer
+      .create({
+        name: 'Nogood Nobody',
+        company: 'Boring'
+      });
+    
+    return request(app)
+      .delete(`/api/v1/reviewers/${emptyReviewer.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: emptyReviewer.id,
+          name: 'Nogood Nobody',
+          company: 'Boring',
+          __v: 0
+        });
+      });
+  });
+
+  it('cannot delete a reviewer with reviews', () => {
+    return request(app)
+      .delete(`/api/v1/reviewers/${reviewer.id}`)
+      .then(res => {
+        expect(res.status).toEqual(500);
+      });
+  });
 });
