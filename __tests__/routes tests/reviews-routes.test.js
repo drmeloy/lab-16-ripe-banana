@@ -73,7 +73,6 @@ describe('reviews routes', () => {
       review: 'By far the most meaningful film I have ever had the priviledge to witness.',
       film: film.id
     });
-    console.log(filledArray.length);
     
     Review.create(filledArray);
 
