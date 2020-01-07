@@ -27,7 +27,7 @@ describe('actors routes', () => {
   beforeEach(async() => {
     actor = await Actor.create({
       name: 'Megaman',
-      dob: new Date('September 2, 1988'),
+      dob: new Date('1988-09-02T06:00:00.000Z'),
       pob: 'Boise'
     });
 
@@ -80,7 +80,7 @@ describe('actors routes', () => {
       .send({
         name: 'Danger Dan',
         pob: 'Boise',
-        dob: new Date('September 2, 1999')
+        dob: new Date('1999-09-02T06:00:00.000Z')
       })
       .then(res => {
         expect(res.body).toEqual({
