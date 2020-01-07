@@ -66,7 +66,7 @@ describe('reviews routes', () => {
       });
   });
 
-  it('limits to 100 reviews', () => {
+  it('limits to 100 reviews', async() => {
     const filledArray = new Array(110).fill({
       rating: 5,
       reviewer: reviewer.id,
@@ -74,7 +74,7 @@ describe('reviews routes', () => {
       film: film.id
     });
     
-    Review.create(filledArray);
+    await Review.create(filledArray);
 
     return request(app)
       .get('/api/v1/reviews')
