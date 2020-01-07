@@ -73,4 +73,23 @@ describe('actors routes', () => {
         });
       });
   });
+
+  it('can add a new actor', () => {
+    return request(app)
+      .post('/api/v1/actors')
+      .send({
+        name: 'Danger Dan',
+        pob: 'Boise',
+        dob: new Date('September 2, 1999')
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Danger Dan',
+          pob: 'Boise',
+          dob: '1999-09-02T06:00:00.000Z',
+          __v: 0
+        });
+      });
+  });
 });
