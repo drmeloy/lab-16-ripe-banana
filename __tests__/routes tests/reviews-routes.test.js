@@ -114,4 +114,40 @@ describe('reviews routes', () => {
         expect(reviews.body[4]).toHaveProperty('rating', 1);
       });
   });
+
+  it('can create a new review', () => {
+    return request(app)
+      .post('/api/v1/reviews')
+      .send({
+        rating: 5,
+        reviewer: reviewer.id,
+        review: 'Like OMG so good WTF',
+        film: film.id
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          rating: 5,
+          reviewer: reviewer.id,
+          review: 'Like OMG so good WTF',
+          film: film.id,
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete a review', () => {
+    return request(app)
+      .delete(`/api/v1/reviews/${review.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: review.id,
+          rating: 5,
+          reviewer: reviewer.id,
+          review: 'By far the most meaningful film I have ever had the priviledge to witness.',
+          film: film.id,
+          __v: 0
+        });
+      });
+  });
 });
