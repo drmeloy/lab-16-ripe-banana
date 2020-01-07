@@ -57,13 +57,11 @@ describe('reviews routes', () => {
         expect(reviews.body).toEqual([{
           _id: review.id,
           rating: 5,
-          reviewer: reviewer.id,
           review: 'By far the most meaningful film I have ever had the priviledge to witness.',
           film: {
             _id: film.id,
             title: 'The Megaman Story'
-          },
-          __v: 0
+          }
         }]);
       });
   });
