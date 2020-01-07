@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const Film = require('../../lib/models/Film');
 const Studio = require('../../lib/models/Studio');
 const Actor = require('../../lib/models/Actor');
+const Review = require('../../lib/models/Review');
+const Reviewer = require('../../lib/models/Reviewer');
 
 describe('films routes', () => {
   beforeAll(() => {
@@ -24,6 +26,8 @@ describe('films routes', () => {
   let film;
   let studio;
   let actor;
+  let review;
+  let reviewer;
   beforeEach(async() => {
     studio = await Studio.create({
       name: 'Boise Studios'
@@ -42,6 +46,18 @@ describe('films routes', () => {
         actor: actor.id
       }]
     });
+
+    reviewer = await Reviewer.create({
+      name: 'Megaman',
+      company: 'Super Reviews'
+    });
+
+    review = await Review.create({
+      rating: 5,
+      reviewer: reviewer.id,
+      review: 'The most meaningful film ever made.',
+      film: film.id
+    });
   });
 
   it('gets all films', () => {
@@ -56,14 +72,6 @@ describe('films routes', () => {
             name: 'Boise Studios'
           },
           released: 2015,
-          cast: [{
-            _id: expect.any(String),
-            role: 'Megaman',
-            actor: {
-              _id: actor.id,
-              name: 'Megaman'
-            }
-          }],
           __v: 0
         }]);
       });
@@ -86,6 +94,15 @@ describe('films routes', () => {
             role: 'Megaman',
             actor: {
               _id: actor.id,
+              name: 'Megaman'
+            }
+          }],
+          reviews: [{
+            _id: review.id,
+            rating: 5,
+            review: 'The most meaningful film ever made.',
+            reviewer: {
+              _id: reviewer.id,
               name: 'Megaman'
             }
           }],
