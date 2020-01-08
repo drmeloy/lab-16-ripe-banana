@@ -30,7 +30,7 @@ describe('actors routes', () => {
           name: actor.name,
           dob: actor.dob,
           pob: actor.pob,
-          films: actor.films
+          films: expect.any(Array)
         });
       });
   });
