@@ -1,71 +1,36 @@
-require('dotenv').config();
-
+const { getStudio, getStudios, getFilms } = require('../../lib/helpers/data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
-const connect = require('../../lib/utils/connect');
-const mongoose = require('mongoose');
-const Studio = require('../../lib/models/Studio');
-const Film = require('../../lib/models/Film');
 
 describe('studios routes', () => {
-  beforeAll(() => {
-    connect();
-  });
+  it('gets all studios', async() => {
+    const studios = await getStudios();
 
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-  
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-  
-  let studio;
-  let film;
-  beforeEach(async() => {
-    studio = await Studio.create({
-      name: 'Boise Studios',
-      address: {
-        city: 'Boise',
-        state: 'Idaho',
-        country: 'USA'
-      }
-    });
-
-    film = await Film.create({
-      title: 'The Megaman Story',
-      studio: studio.id,
-      released: 2015
-    });
-  });
-
-  it('gets all studios', () => {
     return request(app)
       .get('/api/v1/studios')
       .then(res => {
-        expect(res.body).toEqual([{
-          _id: studio.id,
-          name: 'Boise Studios'
-        }]);
+        expect(res.body).toHaveLength(studios.length);
+        studios.forEach(studio => {
+          expect(res.body).toContainEqual({
+            _id: studio._id,
+            name: studio.name
+          });
+        });
       });
   });
 
-  it('gets a studio by id', () => {
+  it('gets a studio by id', async() => {
+    await getFilms();
+    const studio = await getStudio();
+
     return request(app)
-      .get(`/api/v1/studios/${studio.id}`)
+      .get(`/api/v1/studios/${studio._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: studio.id,
-          name: 'Boise Studios',
-          address: {
-            city: 'Boise',
-            state: 'Idaho',
-            country: 'USA'
-          },
-          films: [{
-            _id: film.id,
-            title: 'The Megaman Story'
-          }]
+          _id: studio._id,
+          name: studio.name,
+          address: studio.address,
+          films: expect.any(Array)
         });
       });
   });
