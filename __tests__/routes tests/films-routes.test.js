@@ -11,26 +11,30 @@ describe('films routes', () => {
       .then(res => {
         expect(res.body).toHaveLength(films.length);
         films.forEach(film => {
-          
-          
-          expect(res.body).toContainEqual(film);
+          expect(res.body).toContainEqual({
+            _id: film._id,
+            title: film.title,
+            released: film.released,
+            studio: expect.any(Object)
+          });
         });
       });
   });
 
   it('gets a film by id', async() => {
     const film = await getFilm();
-    await getReviews();
+    const reviews = await getReviews({ film: film._id });
 
     return request(app)
       .get(`/api/v1/films/${film._id}`)
       .then(res => {
+        expect(res.body.reviews).toHaveLength(reviews.length);
         expect(res.body).toEqual({
           title: film.title,
-          studio: film.studio,
+          studio: expect.any(Object),
           released: film.released,
-          cast: film.cast,
-          reviews: film.reviews
+          cast: expect.any(Array),
+          reviews: expect.any(Array)
         });
       });
   });

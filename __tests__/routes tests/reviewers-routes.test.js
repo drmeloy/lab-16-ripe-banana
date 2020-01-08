@@ -19,7 +19,7 @@ describe('reviewers routes', () => {
   });
 
   it('gets a reviewer by id', async() => {
-    let reviewer = await getReviewer();
+    const reviewer = await getReviewer();
     const reviews = await getReviews({ reviewer: reviewer._id });
 
     return request(app)
