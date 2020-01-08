@@ -114,7 +114,7 @@ describe('reviewers routes', () => {
       });
   });
 
-  it('can delete a reviewer with no reviews', async () => {
+  it('can delete a reviewer with no reviews', async() => {
     const emptyReviewer = await Reviewer
       .create({
         name: 'Nogood Nobody',

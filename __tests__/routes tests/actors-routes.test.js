@@ -1,51 +1,7 @@
-require('dotenv').config();
-
 const request = require('supertest');
 const app = require('../../lib/app');
-const connect = require('../../lib/utils/connect');
-const mongoose = require('mongoose');
-const Actor = require('../../lib/models/Actor');
-const Film = require('../../lib/models/Film');
-const Studio = require('../../lib/models/Studio');
 
 describe('actors routes', () => {
-  beforeAll(() => {
-    connect();
-  });
-
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
-  let actor;
-  let studio;
-  let film;
-  beforeEach(async() => {
-    actor = await Actor.create({
-      name: 'Megaman',
-      dob: new Date('1988-09-02T06:00:00.000Z'),
-      pob: 'Boise'
-    });
-
-    studio = await Studio.create({
-      name: 'Boise Studios'
-    });
-
-    film = await Film.create({
-      title: 'The Megaman Story',
-      studio: studio.id,
-      released: 2015,
-      cast: [{
-        role: 'Megaman',
-        actor: actor.id
-      }]
-    });
-  });
-
   it('gets all actors', () => {
     return request(app)
       .get('/api/v1/actors')
