@@ -1,84 +1,36 @@
-require('dotenv').config();
-
+const { getReviewer, getReviewers, getReviews, getReview } = require('../../lib/helpers/data-helpers');
+const Review = require('../../lib/models/Review');
 const request = require('supertest');
 const app = require('../../lib/app');
-const connect = require('../../lib/utils/connect');
-const mongoose = require('mongoose');
-const Reviewer = require('../../lib/models/Reviewer');
-const Review = require('../../lib/models/Review');
-const Film = require('../../lib/models/Film');
-const Studio = require('../../lib/models/Studio');
 
 describe('reviewers routes', () => {
-  beforeAll(() => {
-    connect();
-  });
+  it('gets all reviewers', async() => {
+    const reviewers = await getReviewers();
 
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
-  let reviewer;
-  let review;
-  let studio;
-  let film;
-  beforeEach(async() => {
-    reviewer = await Reviewer.create({
-      name: 'Megaman',
-      company: 'Super Reviews'
-    });
-
-    studio = await Studio.create({
-      name: 'Boise Studios'
-    });
-
-    film = await Film.create({
-      title: 'The Megaman Story',
-      studio: studio.id,
-      released: 2015
-    });
-
-    review = await Review.create({
-      rating: 5,
-      reviewer: reviewer.id,
-      review: 'Supah good',
-      film: film.id
-    });
-  });
-
-  it('gets all reviewers', () => {
     return request(app)
       .get('/api/v1/reviewers')
-      .then(reviewers => {
-        expect(reviewers.body).toEqual([{
-          _id: reviewer.id,
-          name: 'Megaman',
-          company: 'Super Reviews'
-        }]);
+      .then(res => {
+        expect(res.body).toHaveLength(reviewers.length);
+        reviewers.forEach(reviewer => {
+          delete reviewer.__v;
+          expect(res.body).toContainEqual(reviewer);
+        });
       });
   });
 
-  it('gets a reviewer by id', () => {
+  it('gets a reviewer by id', async() => {
+    let reviewer = await getReviewer();
+    const reviews = await getReviews({ reviewer: reviewer._id });
+
     return request(app)
-      .get(`/api/v1/reviewers/${reviewer.id}`)
+      .get(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
+        expect(res.body.reviews).toHaveLength(reviews.length);
         expect(res.body).toEqual({
-          _id: reviewer.id,
-          name: 'Megaman',
-          company: 'Super Reviews',
-          reviews: [{
-            _id: review.id,
-            rating: 5,
-            review: 'Supah good',
-            film: {
-              _id: film.id,
-              title: 'The Megaman Story'
-            }
-          }]
+          _id: reviewer._id,
+          name: reviewer.name,
+          company: reviewer.company,
+          reviews: expect.any(Array)
         });
       });
   });
@@ -100,42 +52,44 @@ describe('reviewers routes', () => {
       });
   });
 
-  it('can update a reviewer', () => {
+  it('can update a reviewer', async() => {
+    const reviewer = await getReviewer();
+
     return request(app)
-      .patch(`/api/v1/reviewers/${reviewer.id}`)
+      .patch(`/api/v1/reviewers/${reviewer._id}`)
       .send({ name: 'Rock' })
       .then(res => {
         expect(res.body).toEqual({
-          _id: reviewer.id,
+          _id: reviewer._id,
           name: 'Rock',
-          company: 'Super Reviews',
+          company: reviewer.company,
           __v: 0
         });
       });
   });
 
   it('can delete a reviewer with no reviews', async() => {
-    const emptyReviewer = await Reviewer
-      .create({
-        name: 'Nogood Nobody',
-        company: 'Boring'
-      });
+    const emptyReviewer = await getReviewer();
+    await Review.deleteMany({ reviewer: emptyReviewer._id });
     
     return request(app)
-      .delete(`/api/v1/reviewers/${emptyReviewer.id}`)
+      .delete(`/api/v1/reviewers/${emptyReviewer._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: emptyReviewer.id,
-          name: 'Nogood Nobody',
-          company: 'Boring',
+          _id: emptyReviewer._id,
+          name: emptyReviewer.name,
+          company: emptyReviewer.company,
           __v: 0
         });
       });
   });
 
-  it('cannot delete a reviewer with reviews', () => {
+  it('cannot delete a reviewer with reviews', async() => {
+    const review = await getReview();
+    const reviewer = await getReviewer({ _id: review.reviewer });
+
     return request(app)
-      .delete(`/api/v1/reviewers/${reviewer.id}`)
+      .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
         expect(res.status).toEqual(500);
       });
