@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for lib/routes/films.js</title>
+    <title>Code coverage report for lab-16-ripe-banana/lib/routes/auth.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="..\..\prettify.css" />
-    <link rel="stylesheet" href="..\..\base.css" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(..\..\sort-arrow-sprite.png);
+            background-image: url(..\..\..\sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\..\index.html">All files</a> / <a href="index.html">lib/routes</a> films.js
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">lab-16-ripe-banana/lib/routes</a> auth.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">30% </span>
+        <span class="strong">54.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/10</span>
+        <span class='fraction'>6/11</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">40% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>2/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">30% </span>
+        <span class="strong">54.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/10</span>
+        <span class='fraction'>6/11</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -74,23 +74,21 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -98,48 +96,59 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Router } = require('express');
-const Film = require('../models/Film');
+const User = require('../models/User');
+const ensureAuth = require('../middleware/ensure-auth');
 &nbsp;
 module.exports = Router()
-  .get('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    Film</span>
-      .find()
-      .populate('studio', { name: true })
-      .select({ cast: false, __v: false })
-      .then(<span class="fstat-no" title="function not covered" >fi</span>lms =&gt; <span class="cstat-no" title="statement not covered" >res.send(films))</span>
-      .catch(next);
-  })
-  .get('/:id', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    Film</span>
-      .findFilmById(req.params.id)
-      .then(<span class="fstat-no" title="function not covered" >([</span>film, reviews]) =&gt; {
-<span class="cstat-no" title="statement not covered" >        film.reviews = reviews;</span>
-<span class="cstat-no" title="statement not covered" >        res.send(film);</span>
+  .post('/signup', (req, res, next) =&gt; {
+    User
+      .create(req.body)
+      .then(user =&gt; {
+        res.cookie('session', user.authToken(), {
+          maxAge: 1000 * 60 * 60 * 24 * 30
+        });
+<span class="cstat-no" title="statement not covered" >        res.send(user);</span>
       })
       .catch(next);
   })
-  .post('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    Film</span>
-      .create(req.body)
-      .then(<span class="fstat-no" title="function not covered" >fi</span>lm =&gt; <span class="cstat-no" title="statement not covered" >res.send(film))</span>
+  .post('/login', <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >    User</span>
+      .authenticate(req.body)
+      .then(<span class="fstat-no" title="function not covered" >us</span>er =&gt; {
+<span class="cstat-no" title="statement not covered" >        res.cookie('session', user.authToken(), {</span>
+          maxAge: 1000 * 60 * 60 * 24 * 30
+        });
+<span class="cstat-no" title="statement not covered" >        res.send(user);</span>
+      })
+      .catch(next);
+  })
+  .get('/verify', ensureAuth, <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {    
+<span class="cstat-no" title="statement not covered" >    res.send(req.user)</span>
       .catch(next);
   });
-&nbsp;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jan 09 2020 11:37:42 GMT-0700 (Mountain Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jan 09 2020 11:04:48 GMT-0700 (Mountain Standard Time)
 </div>
 </div>
-<script src="..\..\prettify.js"></script>
+<script src="..\..\..\prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -147,7 +156,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="..\..\sorter.js"></script>
-<script src="..\..\block-navigation.js"></script>
+<script src="..\..\..\sorter.js"></script>
+<script src="..\..\..\block-navigation.js"></script>
 </body>
 </html>
