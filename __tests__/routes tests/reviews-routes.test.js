@@ -1,4 +1,4 @@
-const { getReview, getReviews, getReviewer, getFilm } = require('../../lib/helpers/data-helpers');
+const { getReview, getReviews, getReviewer, getFilm, getUserAgent } = require('../../lib/helpers/data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
 
@@ -37,11 +37,31 @@ describe('reviews routes', () => {
       });
   });
 
-  it('can create a new review', async() => {
+  it('requires a user to create a new review', async() => {
     const reviewer = await getReviewer();
     const film = await getFilm();
 
     return request(app)
+      .post('/api/v1/reviews')
+      .send({
+        rating: 5,
+        reviewer: reviewer._id,
+        review: 'Like OMG so good WTF',
+        film: film._id
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'jwt must be provided',
+          status: 500
+        });
+      });
+  });
+
+  it('can create a new review', async() => {
+    const reviewer = await getReviewer();
+    const film = await getFilm();
+
+    return getUserAgent()
       .post('/api/v1/reviews')
       .send({
         rating: 5,
@@ -61,10 +81,23 @@ describe('reviews routes', () => {
       });
   });
 
-  it('can delete a review', async() => {
+  it('requires a user to delete a review', async() => {
     const review = await getReview();
 
     return request(app)
+      .delete(`/api/v1/reviews/${review._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'jwt must be provided',
+          status: 500
+        });
+      });
+  });
+
+  it('can delete a review', async() => {
+    const review = await getReview();
+
+    return getUserAgent()
       .delete(`/api/v1/reviews/${review._id}`)
       .then(res => {
         expect(res.body).toEqual({
