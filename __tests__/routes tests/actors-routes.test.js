@@ -1,4 +1,4 @@
-const { getActor, getActors, getFilms } = require('../../lib/helpers/data-helpers');
+const { getActor, getActors, getFilms, getUserAgent } = require('../../lib/helpers/data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
 
@@ -35,8 +35,24 @@ describe('actors routes', () => {
       });
   });
 
-  it('can add a new actor', () => {
+  it('requires user to add a new actor', () => {
     return request(app)
+      .post('/api/v1/actors')
+      .send({
+        name: 'Danger Dan',
+        pob: 'Boise',
+        dob: new Date('1999-09-02T06:00:00.000Z')
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'jwt must be provided',
+          status: 500
+        });
+      });
+  });
+
+  it('can add a new actor', () => {
+    return getUserAgent()
       .post('/api/v1/actors')
       .send({
         name: 'Danger Dan',
