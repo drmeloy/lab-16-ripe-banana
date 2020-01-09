@@ -1,4 +1,4 @@
-const { getFilm, getFilms, getStudio, getActor, getReviews } = require('../../lib/helpers/data-helpers');
+const { getFilm, getFilms, getStudio, getActor, getReviews, getUserAgent } = require('../../lib/helpers/data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
 
@@ -39,11 +39,34 @@ describe('films routes', () => {
       });
   });
 
-  it('can add a new film', async() => {
+  it('requires user to add a new film', async() => {
     const studio = await getStudio();
     const actor = await getActor();
 
     return request(app)
+      .post('/api/v1/films')
+      .send({
+        title: 'Megaman Returns',
+        studio: studio._id,
+        released: 2016,
+        cast: {
+          role: 'Megaman',
+          actor: actor._id
+        }
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'jwt must be provided',
+          status: 500
+        });
+      });
+  });
+
+  it('can add a new film', async() => {
+    const studio = await getStudio();
+    const actor = await getActor();
+
+    return getUserAgent()
       .post('/api/v1/films')
       .send({
         title: 'Megaman Returns',
