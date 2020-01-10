@@ -1,4 +1,4 @@
-const { getUser } = require('../../lib/helpers/data-helpers');
+const { getUser, getUserAgent, getAdminAgent } = require('../../lib/helpers/data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
 
@@ -81,6 +81,36 @@ describe('auth routes', () => {
         expect(res.body).toEqual({
           message: 'Invalid Email or Password',
           status: 401,
+        });
+      });
+  });
+
+  it('requires admin to patch a user', async() => {
+    const user = await getUser({ role: 'user' });
+
+    return getUserAgent()
+      .patch(`/api/v1/auth/${user._id}`)
+      .send({ role: 'admin' })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'Must be an admin',
+          status: 500
+        });
+      });
+  });
+
+  it('can patch a user', async() => {
+    const user = await getUser({ role: 'user' });
+
+    return getAdminAgent()
+      .patch(`/api/v1/auth/${user._id}`)
+      .send({ role: 'admin' })
+      .then(res => {        
+        expect(res.body).toEqual({
+          _id: user._id,
+          email: 'test@test.com',
+          role: 'admin',
+          __v: 0
         });
       });
   });
