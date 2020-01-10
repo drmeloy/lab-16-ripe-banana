@@ -118,7 +118,9 @@ While the schemas should look like the data definitions above, these are descrip
 
 ```
 [{
-    _id, title, released,
+    _id, 
+    title, 
+    released,
     studio: { _id, name }
 }]
 ```
